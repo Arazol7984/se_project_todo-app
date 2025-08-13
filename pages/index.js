@@ -9,6 +9,10 @@ const addTodoForm = addTodoPopup.querySelector(".popup__form");
 const addTodoCloseBtn = addTodoPopup.querySelector(".popup__close");
 const todosList = document.querySelector(".todos__list");
 
+// Instantiate a FormValidator for the "add todo" form
+const addTodoFormValidator = new FormValidator(validationConfig, addTodoForm);
+addTodoFormValidator.enableValidation();
+
 const openModal = (modal) => {
   modal.classList.add("popup_visible");
 };
@@ -17,14 +21,15 @@ const closeModal = (modal) => {
   modal.classList.remove("popup_visible");
 };
 
-// Instantiate a FormValidator for the "add todo" form
-const addTodoFormValidator = new FormValidator(validationConfig, addTodoForm);
-addTodoFormValidator.enableValidation();
-
 const generateTodo = (data) => {
   const todo = new Todo(data, "#todo-template");
-  const todoElement = todo.getView();
-  return todoElement;
+  return todo.getView();
+};
+
+// Helper function to render a single todo item
+const renderTodo = (data) => {
+  const todo = generateTodo(data);
+  todosList.append(todo);
 };
 
 addTodoButton.addEventListener("click", () => {
@@ -44,15 +49,15 @@ addTodoForm.addEventListener("submit", (evt) => {
   const date = new Date(dateInput);
   date.setMinutes(date.getMinutes() + date.getTimezoneOffset());
 
-  const values = { name, date, id: uuidv4(), completed: false };
-  const todo = generateTodo(values);
-  todosList.append(todo);
+  // Renamed 'values' to 'todoData' for clarity
+  const todoData = { name, date, id: uuidv4(), completed: false };
+
+  renderTodo(todoData);
   closeModal(addTodoPopup);
-  addTodoFormValidator.resetValidation(); // Reset the form after successful submission
-  addTodoForm.reset();
+  addTodoForm.reset(); // Call form.reset() first
+  addTodoFormValidator.resetValidation(); // Then call resetValidation()
 });
 
 initialTodos.forEach((item) => {
-  const todo = generateTodo(item);
-  todosList.append(todo);
+  renderTodo(item);
 });

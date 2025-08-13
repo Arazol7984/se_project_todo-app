@@ -10,19 +10,24 @@ class Todo {
     this._todoElement = todoTemplate.content
       .querySelector(".todo")
       .cloneNode(true);
+
+    // Cache the elements here to avoid duplicate DOM lookups
+    this._todoNameEl = this._todoElement.querySelector(".todo__name");
+    this._todoCheckboxEl = this._todoElement.querySelector(".todo__completed");
+    this._todoLabel = this._todoElement.querySelector(".todo__label");
+    this._todoDate = this._todoElement.querySelector(".todo__date");
+    this._todoDeleteBtn = this._todoElement.querySelector(".todo__delete-btn");
+
     return this._todoElement;
   }
 
   // Private method to set event listeners
   _setEventListeners() {
-    const todoDeleteBtn = this._todoElement.querySelector(".todo__delete-btn");
-    const todoCheckboxEl = this._todoElement.querySelector(".todo__completed");
-
-    todoDeleteBtn.addEventListener("click", () => {
+    this._todoDeleteBtn.addEventListener("click", () => {
       this._handleDelete();
     });
 
-    todoCheckboxEl.addEventListener("change", () => {
+    this._todoCheckboxEl.addEventListener("change", () => {
       this._handleToggleCompleted();
     });
   }
@@ -36,7 +41,7 @@ class Todo {
   _handleToggleCompleted() {
     this._todoElement.classList.toggle(
       "todo_completed",
-      this._todoElement.querySelector(".todo__completed").checked
+      this._todoCheckboxEl.checked
     );
   }
 
@@ -44,22 +49,17 @@ class Todo {
   getView() {
     this._getTemplate();
 
-    const todoNameEl = this._todoElement.querySelector(".todo__name");
-    const todoCheckboxEl = this._todoElement.querySelector(".todo__completed");
-    const todoLabel = this._todoElement.querySelector(".todo__label");
-    const todoDate = this._todoElement.querySelector(".todo__date");
+    this._todoNameEl.textContent = this._data.name;
+    this._todoCheckboxEl.checked = this._data.completed;
 
-    todoNameEl.textContent = this._data.name;
-    todoCheckboxEl.checked = this._data.completed;
-
-    // Apply id and for attributes. The id will be a new UUID for new todos.
+    // Apply id and for attributes.
     const uniqueId = this._data.id || uuidv4();
-    todoCheckboxEl.id = `todo-${uniqueId}`;
-    todoLabel.setAttribute("for", `todo-${uniqueId}`);
+    this._todoCheckboxEl.id = `todo-${uniqueId}`;
+    this._todoLabel.setAttribute("for", `todo-${uniqueId}`);
 
     const dueDate = new Date(this._data.date);
     if (!isNaN(dueDate)) {
-      todoDate.textContent = `Due: ${dueDate.toLocaleString("en-US", {
+      this._todoDate.textContent = `Due: ${dueDate.toLocaleString("en-US", {
         year: "numeric",
         month: "short",
         day: "numeric",
