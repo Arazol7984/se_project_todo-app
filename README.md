@@ -1,17 +1,17 @@
 # Simple Todo App
 
-Give a brief description of the project here. Feel free to give it a different name.
+This project showcases how Javascript, CSS, and HTML can all be used together to put a simple checklist / todo app for users to enjoy.
 
 ## Functionality
 
-Give a more detailed explanation of the project and its functionality.
+The working components allow users to set a task, a day / time they want the task done, and the order in which they wish it to be completed. All buttons work, whether it be deleting, adding, naming, etcetera.
 
 ## Technology
 
-Give a description of the technologies and techniques used. Pictures, GIFs, or screenshots that detail the project features are recommended.
+The technologies used are HTML, CSS, and Javascript. Along with VS Code, and a reactional design.
 
 ## Deployment
 
 This project is deployed on GitHub Pages:
 
-- ADD LINK HERE
+
