@@ -12,6 +12,6 @@ The technologies used are HTML, CSS, and Javascript. Along with VS Code, and a r
 
 ## Deployment
 
-This project is deployed on GitHub Pages:
+This project is deployed on GitHub Pages: https://arazol7984.github.io/se_project_todo-app
 
 
