@@ -1,7 +1,6 @@
 import { v4 as uuidv4 } from "https://jspm.dev/uuid";
 
 class Todo {
-  // Add new parameters for the callback functions
   constructor(data, selector, { onDelete, onToggleCompleted }) {
     this._data = data;
     this._selector = selector;
@@ -9,32 +8,37 @@ class Todo {
     this._onToggleCompleted = onToggleCompleted;
   }
 
-  // Private method to get the template and clone it
   _getTemplate() {
-    // ... (no changes needed here)
+    const todoTemplate = document.querySelector(this._selector);
+    this._todoElement = todoTemplate.content
+      .querySelector(".todo")
+      .cloneNode(true);
+
+    this._todoNameEl = this._todoElement.querySelector(".todo__name");
+    this._todoCheckboxEl = this._todoElement.querySelector(".todo__completed");
+    this._todoLabel = this._todoElement.querySelector(".todo__label");
+    this._todoDate = this._todoElement.querySelector(".todo__date");
+    this._todoDeleteBtn = this._todoElement.querySelector(".todo__delete-btn");
+
+    return this._todoElement;
   }
 
-  // Private method to set event listeners
   _setEventListeners() {
     this._todoDeleteBtn.addEventListener("click", () => {
-      // Call the external onDelete callback
       this._onDelete(this._data.id);
       this._handleDelete();
     });
 
     this._todoCheckboxEl.addEventListener("change", () => {
-      // Call the external onToggleCompleted callback
       this._onToggleCompleted(this._data.id, this._todoCheckboxEl.checked);
       this._handleToggleCompleted();
     });
   }
 
-  // Private method to handle deletion
   _handleDelete() {
     this._todoElement.remove();
   }
 
-  // Private method to handle toggling the completed status
   _handleToggleCompleted() {
     this._todoElement.classList.toggle(
       "todo_completed",
@@ -42,13 +46,11 @@ class Todo {
     );
   }
 
-  // Public method to return the finished to-do element
   getView() {
     this._getTemplate();
     this._todoNameEl.textContent = this._data.name;
     this._todoCheckboxEl.checked = this._data.completed;
 
-    // Fix the uuidv4() issue
     const uniqueId = this._data.id || uuidv4();
     this._todoCheckboxEl.id = `todo-${uniqueId}`;
     this._todoLabel.setAttribute("for", `todo-${uniqueId}`);
