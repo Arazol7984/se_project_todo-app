@@ -1,6 +1,6 @@
 class TodoCounter {
-  constructor(todos, selector) {
-    this._element = document.querySelector(selector);
+  constructor(todos, elementSelector) {
+    this._counterElement = document.querySelector(elementSelector);
     this._completed = todos.filter((todo) => todo.completed).length;
     this._total = todos.length;
     this._updateText();
@@ -25,7 +25,7 @@ class TodoCounter {
   }
 
   _updateText() {
-    this._element.textContent = `Showing ${this._completed} out of ${this._total} completed`;
+    this._counterElement.textContent = `Showing ${this._completed} out of ${this._total} completed`;
   }
 }
 
