@@ -18,6 +18,9 @@ const todoCounter = new TodoCounter(initialTodos, ".counter__text");
 const generateTodo = (todoData) => {
   const todo = new Todo(todoData, "#todo-template", {
     onDelete: () => {
+      if (todoData.completed) {
+        todoCounter.updateCompleted(false);
+      }
       todoCounter.updateTotal(false);
     },
     onToggleCompleted: (isCompleted) => {
@@ -44,11 +47,11 @@ const addTodoPopup = new PopupWithForm("#add-todo-popup", (data) => {
   todoSection.addItem(newTodoElement);
   todoCounter.updateTotal(true);
   addTodoPopup.close();
+  addTodoFormValidator.resetValidation();
 });
 
 addTodoButton.addEventListener("click", () => {
   addTodoPopup.open();
-  addTodoFormValidator.resetValidation();
 });
 
 addTodoPopup.setEventListeners();
