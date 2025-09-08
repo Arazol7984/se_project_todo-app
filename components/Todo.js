@@ -1,3 +1,4 @@
+// Todo.js
 import { v4 as uuidv4 } from "https://jspm.dev/uuid";
 
 class Todo {
@@ -25,12 +26,13 @@ class Todo {
 
   _setEventListeners() {
     this._todoDeleteBtn.addEventListener("click", () => {
-      this._onDelete(this._data.id);
+      // Pass the completed status to the onDelete callback
+      this._onDelete(this._todoCheckboxEl.checked);
       this._handleDelete();
     });
 
     this._todoCheckboxEl.addEventListener("change", () => {
-      this._onToggleCompleted(this._data.id, this._todoCheckboxEl.checked);
+      this._onToggleCompleted(this._todoCheckboxEl.checked);
       this._handleToggleCompleted();
     });
   }

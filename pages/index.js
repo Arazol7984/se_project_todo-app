@@ -1,3 +1,4 @@
+// index.js
 import { initialTodos, validationConfig } from "../utils/constants.js";
 import Todo from "../components/Todo.js";
 import FormValidator from "../components/FormValidator.js";
@@ -17,13 +18,14 @@ const todoCounter = new TodoCounter(initialTodos, ".counter__text");
 
 const generateTodo = (todoData) => {
   const todo = new Todo(todoData, "#todo-template", {
-    onDelete: () => {
-      if (todoData.completed) {
+    onDelete: (isCompleted) => {
+      if (isCompleted) {
         todoCounter.updateCompleted(false);
       }
       todoCounter.updateTotal(false);
     },
     onToggleCompleted: (isCompleted) => {
+      todoData.completed = isCompleted;
       todoCounter.updateCompleted(isCompleted);
     },
   });
